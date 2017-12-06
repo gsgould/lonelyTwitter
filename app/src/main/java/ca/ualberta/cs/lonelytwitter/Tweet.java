@@ -1,89 +1,58 @@
-/*
- * Tweet
- * Represents a TWeet
- */
-
 package ca.ualberta.cs.lonelytwitter;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Tweet implements Tweetable{
+import io.searchbox.annotations.JestId;
+
+public abstract class Tweet implements Tweetable {
     private String message;
     private Date date;
-    private ArrayList<Mood> MoodList;
+    @JestId
+    private String id;
+
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
 
     public Tweet(String message){
-        date = new Date();
         this.message = message;
+        this.date = new Date();
     }
-
-    /**
-     * Constructs a Tweet object
-     *
-     * @param message tweet message
-     * @param date tweet date
-     */
 
     public Tweet(String message, Date date){
-        this.date = date;
         this.message = message;
+        this.date = date;
     }
 
-    public String getMessage(){
+    @Override
+    public String toString(){
         return message;
     }
 
-    /**
-     * Sets the tweet message.
-     * @param message tweet message
-     * @throws tweetTooLongException when tweet length is more than 140 characters
-     */
+    public abstract Boolean isImportant();
 
-    public void setMessage(String message) throws tweetTooLongException{
-        if (message.length() <= 140){
-            this.message = message;
+
+    public void setMessage(String message) throws TweetTooLongException {
+        if (message.length() > 140){
+            //Do Something!
+            throw new TweetTooLongException();
         }
-        else{
-            throw new tweetTooLongException();
-        }
+        this.message = message;
     }
 
-    /**
-     * getter for date
-     * @return date
-     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 
     public Date getDate() {
         return date;
-    }
-
-    /**
-     * setter for date
-     * @param date
-     */
-    public void setDate(Date date){ this.date = date;}
-
-    /**
-     * converts date to string and appends before message
-     * @return
-     */
-    @Override
-    public String toString(){
-        return date.toString() + "|" + message;
-    }
-
-    /**
-     * query if tweet is important
-     * @return boolean
-     */
-    public abstract Boolean isImportant();
-
-    /**
-     * get list of moods
-     * @param list
-     */
-    public void moodList(ArrayList<Mood> list){
-        this.MoodList = list;
     }
 }
