@@ -2,38 +2,39 @@ package ca.ualberta.cs.lonelytwitter;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-public class tweetListTest extends ActivityInstrumentationTestCase2{
-    public tweetListTest(){
+public class TweetListTest extends ActivityInstrumentationTestCase2 {
+
+    public TweetListTest(){
         super(ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity.class);
     }
 
     public void testAddTweet(){
         TweetList tweets = new TweetList();
-        Tweet tweet = new NormalTweet("adding tweet ");
+        Tweet tweet = new NormalTweet("adding tweet");
         tweets.add(tweet);
         assertTrue(tweets.hasTweet(tweet));
     }
 
     public void testDelete(){
-        TweetList tweets = new TweetList();
-        Tweet tweet = new NormalTweet("test2");
+        TweetList list = new TweetList();
+        Tweet tweet = new NormalTweet("test");
+        list.add(tweet);
+        list.delete(tweet);
+        assertFalse(list.hasTweet(tweet));
+    }
+
+    public void testGetTweet(){
+        TweetList tweets = new TweetList(); //
+        Tweet tweet = new NormalTweet("test");
         tweets.add(tweet);
-        tweets.delete(tweet);
-        assertFalse(tweets.hasTweet(tweet));
+        Tweet returnedTweet = tweets.getTweet(0);
+        assertEquals(returnedTweet.getMessage(), tweet.getMessage());
     }
 
     public void testHasTweet(){
         TweetList list = new TweetList();
-        Tweet tweet = new NormalTweet("test1");
+        Tweet tweet = new NormalTweet("test");
         list.add(tweet);
         assertTrue(list.hasTweet(tweet));
-    }
-
-    public void testGetTweeet(){
-        TweetList list = new TweetList();
-        Tweet tweet = new NormalTweet("test3");
-        list.add(tweet);
-        Tweet returnedTweet = list.getTweet(0);
-        assertEquals(returnedTweet.getMessage(), tweet.getMessage());
     }
 }
