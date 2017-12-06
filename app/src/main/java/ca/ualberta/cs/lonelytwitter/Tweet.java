@@ -1,11 +1,12 @@
+/*
+ * Tweet
+ * Represents a TWeet
+ */
+
 package ca.ualberta.cs.lonelytwitter;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-/**
- * Created by naz_t on 9/14/2017.
- */
 
 public abstract class Tweet implements Tweetable{
     private String message;
@@ -17,6 +18,13 @@ public abstract class Tweet implements Tweetable{
         this.message = message;
     }
 
+    /**
+     * Constructs a Tweet object
+     *
+     * @param message tweet message
+     * @param date tweet date
+     */
+
     public Tweet(String message, Date date){
         this.date = date;
         this.message = message;
@@ -26,28 +34,55 @@ public abstract class Tweet implements Tweetable{
         return message;
     }
 
-    public void setMessage(String message) throws TweetExtraneous{
+    /**
+     * Sets the tweet message.
+     * @param message tweet message
+     * @throws tweetTooLongException when tweet length is more than 140 characters
+     */
+
+    public void setMessage(String message) throws tweetTooLongException{
         if (message.length() <= 140){
             this.message = message;
         }
         else{
-            throw new TweetExtraneous();
+            throw new tweetTooLongException();
         }
     }
+
+    /**
+     * getter for date
+     * @return date
+     */
 
     public Date getDate() {
         return date;
     }
 
+    /**
+     * setter for date
+     * @param date
+     */
     public void setDate(Date date){ this.date = date;}
 
+    /**
+     * converts date to string and appends before message
+     * @return
+     */
     @Override
     public String toString(){
         return date.toString() + "|" + message;
     }
 
+    /**
+     * query if tweet is important
+     * @return boolean
+     */
     public abstract Boolean isImportant();
 
+    /**
+     * get list of moods
+     * @param list
+     */
     public void moodList(ArrayList<Mood> list){
         this.MoodList = list;
     }
